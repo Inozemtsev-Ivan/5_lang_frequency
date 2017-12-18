@@ -1,7 +1,7 @@
 import sys
 import string
 
-DELIMITERS = ''.join([string.punctuation, string.whitespace])
+DELIMITERS = set(''.join([string.punctuation, string.whitespace]))
 
 
 def load_data(filepath):

@@ -6,11 +6,11 @@ DELIMITERS = set(''.join([string.punctuation, string.whitespace]))
 
 def load_data(filepath):
     with open(filepath, 'r') as file_descriptor:
-        for word in next_word(file_descriptor):
+        for word in next_word_from_fd(file_descriptor):
             yield word
 
 
-def next_word(file_descriptor):
+def next_word_from_fd(file_descriptor):
     new_word = ''
     while True:
         new_symbol = file_descriptor.read(1)

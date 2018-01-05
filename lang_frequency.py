@@ -1,27 +1,14 @@
 import sys
 import string
 
-DELIMITERS = set(''.join([string.punctuation, string.whitespace]))
+REPLACE_DELIMITERS_BY_SPACE = str.maketrans(dict.fromkeys(string.punctuation, ' '))
 
 
 def load_data(filepath):
-    with open(filepath, 'r') as file_descriptor:
-        for word in next_word_from_fd(file_descriptor):
-            yield word
-
-
-def next_word_from_fd(file_descriptor):
-    new_word = ''
-    while True:
-        new_symbol = file_descriptor.read(1)
-        if len(new_symbol) > 0:
-            if new_symbol not in DELIMITERS:
-                new_word += new_symbol
-            elif len(new_word) > 0:
-                result, new_word = new_word, ''
-                yield result
-        else:
-            raise StopIteration
+    with open(filepath, 'r') as file:
+        for string in file:
+            for word in string.translate(REPLACE_DELIMITERS_BY_SPACE).split():
+                yield word
 
 
 def get_most_frequent_words(words_generator, top_amount):

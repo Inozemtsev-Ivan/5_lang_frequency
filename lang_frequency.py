@@ -1,20 +1,21 @@
 import sys
-import string
+from string import punctuation
 
-REPLACE_DELIMITERS_BY_SPACE = str.maketrans(dict.fromkeys(string.punctuation, ' '))
+REPLACE_DELIMITERS_BY_SPACE = str.maketrans(dict.fromkeys(punctuation, ' '))
+TOP_FREQUENCY = 10
 
 
 def load_data(filepath):
     with open(filepath, 'r') as file:
-        for string in file:
-            for word in string.translate(REPLACE_DELIMITERS_BY_SPACE).split():
-                yield word
+        for text_string in file:
+            yield text_string
 
 
-def get_most_frequent_words(words_generator, top_amount):
+def get_most_frequent_words(string_generator, top_amount):
     words_rating = {}
-    for word in words_generator:
-        words_rating[word] = words_rating.setdefault(word, 0) + 1
+    for text_string in string_generator:
+        for word in text_string.translate(REPLACE_DELIMITERS_BY_SPACE).split():
+            words_rating[word.lower()] = words_rating.setdefault(word, 0) + 1
     return sorted(words_rating, key=words_rating.get, reverse=True)[:top_amount]
 
 
@@ -24,7 +25,7 @@ if __name__ == '__main__':
     except IndexError:
         exit('Please specify filepath!')
     try:
-        for word in get_most_frequent_words(load_data(filepath), 10):
+        for word in get_most_frequent_words(load_data(filepath), TOP_FREQUENCY):
             print(word)
     except IOError as ex:
         print(ex)

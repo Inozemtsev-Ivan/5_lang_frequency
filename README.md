@@ -31,7 +31,7 @@ usage: lang_frequency.py [-h] <filename>
 lang_frequency.py: error: argument <filename>: can't open 'example.txt': [Errno 2] No such file or directory: 'example.txt'
 ```
 
-This script supports `--help` and `-h` arguments:
+This script supports `--help` and `-h` arguments as shown:
 ```shell
 python3 lang_frequency.py --help
 usage: lang_frequency.py [-h] <filename>

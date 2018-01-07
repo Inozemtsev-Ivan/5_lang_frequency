@@ -1,4 +1,3 @@
-import sys
 from string import punctuation
 from collections import Counter
 from argparse import ArgumentParser, FileType

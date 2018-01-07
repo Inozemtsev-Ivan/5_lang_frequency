@@ -1,8 +1,8 @@
 import sys
 from string import punctuation
+from collections import Counter
 
-REPLACE_DELIMITERS_BY_SPACE = str.maketrans(dict.fromkeys(punctuation, ' '))
-TOP_FREQUENCY = 10
+TOP = 10
 
 
 def load_data(filepath):
@@ -11,21 +11,39 @@ def load_data(filepath):
             yield text_string
 
 
-def get_most_frequent_words(string_generator, top_amount):
-    words_rating = {}
+def get_words(string_generator):
+    replace_delimiters_by_space = str.maketrans(
+        dict.fromkeys(punctuation, ' '))
     for text_string in string_generator:
-        for word in text_string.translate(REPLACE_DELIMITERS_BY_SPACE).split():
-            words_rating[word.lower()] = words_rating.setdefault(word, 0) + 1
-    return sorted(words_rating, key=words_rating.get, reverse=True)[:top_amount]
+        for word in text_string.translate(replace_delimiters_by_space).split():
+            if not word.islower():
+                word = word.lower()
+            yield word
+
+
+def get_most_frequent_words(word_generator, top):
+    return Counter(word_generator).most_common(top)
+
+
+def prettify_output(sorted_data, begin_from_zero=False, indentation=2):
+    starting_number = 0 if begin_from_zero else 1
+    for number, value in enumerate(sorted_data, starting_number):
+        print(''.join(['{num}:',
+                       ' ' * (indentation + len(str(TOP)) - len(str(number))),
+                       '"{word}" ',
+                       ' - {occurrence} times'])
+              .format(num=number,
+                      word=value[0],
+                      occurrence=value[1]))
 
 
 if __name__ == '__main__':
     try:
         filepath = sys.argv[1]
+        string_generator = load_data(filepath)
+        most_frequent_words = get_most_frequent_words(get_words(string_generator), TOP)
+        prettify_output(most_frequent_words)
     except IndexError:
         exit('Please specify filepath!')
-    try:
-        for word in get_most_frequent_words(load_data(filepath), TOP_FREQUENCY):
-            print(word)
     except IOError as ex:
-        print(ex)
+        exit(ex)

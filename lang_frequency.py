@@ -42,8 +42,8 @@ def get_filename():
     parser.add_argument('filename',
                         metavar='<filename>',
                         type=FileType('r'),
-                        help="Name or path (absolute or relative) of file to process.\
-                             One file at a time, please.")
+                        help="Name or path (absolute or relative) of file \
+                        to process. One file at a time, please.")
     return parser.parse_args().filename
 
 
@@ -51,7 +51,8 @@ if __name__ == '__main__':
     try:
         infile = get_filename()
         string_generator = load_data(infile)
-        most_frequent_words = get_most_frequent_words(get_words(string_generator), TOP)
+        words = get_words(string_generator)
+        most_frequent_words = get_most_frequent_words(words, TOP)
         prettify_output(most_frequent_words)
     except Exception as ex:
         exit(ex)

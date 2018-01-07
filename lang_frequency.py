@@ -48,11 +48,8 @@ def get_filename():
 
 
 if __name__ == '__main__':
-    try:
-        infile = get_filename()
-        string_generator = load_data(infile)
-        words = get_words(string_generator)
-        most_frequent_words = get_most_frequent_words(words, TOP)
-        prettify_output(most_frequent_words)
-    except Exception as ex:
-        exit(ex)
+    infile = get_filename()
+    string_generator = load_data(infile)
+    words = get_words(string_generator)
+    most_frequent_words = get_most_frequent_words(words, TOP)
+    prettify_output(most_frequent_words)

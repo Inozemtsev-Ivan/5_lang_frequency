@@ -31,6 +31,21 @@ usage: lang_frequency.py [-h] <filename>
 lang_frequency.py: error: argument <filename>: can't open 'example.txt': [Errno 2] No such file or directory: 'example.txt'
 ```
 
+This script supports `--help` and `-h` arguments:
+```shell
+python3 lang_frequency.py --help
+usage: lang_frequency.py [-h] <filename>
+
+Counts words frequency in text file.
+
+positional arguments:
+  <filename>  Name or path (absolute or relative) of file to process. One file
+              at a time, please.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
 Script utilise some small optimisation to improve performance like usage of generators instead of plain lists. However, performance completely depends on optimization of corresponding CPython functions responsible for build-in text file I/O and string translations.   
 
 # Project Goals

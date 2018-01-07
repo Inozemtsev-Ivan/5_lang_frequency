@@ -20,13 +20,15 @@ python3 lang_frequency.py README.md
 Correct `filename` _must_ be referenced during execution, otherwise it will raise exceptions:
  ```shell
 python3 lang_frequency.py
-Please specify filepath!
+usage: lang_frequency.py [-h] <filename>
+lang_frequency.py: error: the following arguments are required: <filename>
 ```
 _OR_
 
 ```shell
-python3 lang_frequency.py filename.txt
-[Errno 2] No such file or directory: 'filename.txt'
+python3 lang_frequency.py example.txt
+usage: lang_frequency.py [-h] <filename>
+lang_frequency.py: error: argument <filename>: can't open 'example.txt': [Errno 2] No such file or directory: 'example.txt'
 ```
 
 Script utilise some small optimisation to improve performance like usage of generators instead of plain lists. However, performance completely depends on optimization of corresponding CPython functions responsible for build-in text file I/O and string translations.   

@@ -1,12 +1,13 @@
 import sys
 from string import punctuation
 from collections import Counter
+from argparse import ArgumentParser, FileType
 
 TOP = 10
 
 
-def load_data(filepath):
-    with open(filepath, 'r') as file:
+def load_data(infile):
+    with infile as file:
         for text_string in file:
             yield text_string
 
@@ -37,13 +38,21 @@ def prettify_output(sorted_data, begin_from_zero=False, indentation=2):
                       occurrence=value[1]))
 
 
+def get_filename():
+    parser = ArgumentParser(description='Counts words frequency in text file.')
+    parser.add_argument('filename',
+                        metavar='<filename>',
+                        type=FileType('r'),
+                        help="Name or path (absolute or relative) of file to process.\
+                             One file at a time, please.")
+    return parser.parse_args().filename
+
+
 if __name__ == '__main__':
     try:
-        filepath = sys.argv[1]
-        string_generator = load_data(filepath)
+        infile = get_filename()
+        string_generator = load_data(infile)
         most_frequent_words = get_most_frequent_words(get_words(string_generator), TOP)
         prettify_output(most_frequent_words)
-    except IndexError:
-        exit('Please specify filepath!')
-    except IOError as ex:
+    except Exception as ex:
         exit(ex)
